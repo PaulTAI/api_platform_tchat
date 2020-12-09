@@ -13,13 +13,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @apiResource(
- * normalizationContext={"groups"={"user:read"}},
- * denormalizationContext={"groups"={"user:write"}},
- * "create_user"= {
- *      "method"="POST",
- *      "path"="/users/create",
- *      "controller"=App\Controller\CreateUser::class
- * })
+ *      normalizationContext={"groups"={"user:read"}},
+ *      denormalizationContext={"groups"={"user:write"}},
+ *      "create_user"= {
+ *              "method"="POST",
+ *              "path"="/users/create",
+ *              "controller"=App\Controller\CreateUser::class
+ *      }
+ * )
  */
 
 class User implements UserInterface

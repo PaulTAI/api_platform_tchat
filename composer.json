@@ -1,6 +1,0 @@
-{
-    "require": {
-        "symfony/validator": "^5.2",
-        "doctrine/annotations": "^1.11"
-    }
-}
