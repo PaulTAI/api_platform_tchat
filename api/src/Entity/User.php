@@ -16,10 +16,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *      normalizationContext={"groups"={"user:read"}},
  *      denormalizationContext={"groups"={"user:write"}},
- *      "create_user"= {
+ *      collectionOperations={
+ *          "create_user"= {
  *              "method"="POST",
  *              "path"="/users/create",
  *              "controller"=App\Controller\CreateUser::class
+ *          }
  *      }
  * )
  */
