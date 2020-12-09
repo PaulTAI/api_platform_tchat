@@ -63,7 +63,7 @@ services:
       - "5432:5432"
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_DB=api
+      - POSTGRES_DB=apiPla
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
 

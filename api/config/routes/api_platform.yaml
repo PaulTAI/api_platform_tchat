@@ -4,4 +4,4 @@ api_platform:
 
 login:
     path: /login
-    methode: ['POST']
+    methods: ['POST']
