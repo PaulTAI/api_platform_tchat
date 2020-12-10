@@ -7,11 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @ApiResource(
+ *      normalizationContext={"groups"={"user:read"}},
+ *      denormalizationContext={"groups"={"user:write"}},
+ *      collectionOperations={
+ *          "create_user"= {
+ *              "method"="POST",
+ *              "path"="/users/create",
+ *              "controller"=App\Controller\CreateUser::class
+ *          }
+ *      }
+ * )
  */
+
 class User implements UserInterface
 {
     /**
@@ -23,57 +37,68 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read", "user:write"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"user:read", "user:write"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"user:read", "user:write"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"user:read", "user:write"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"user:read", "user:write"})
      */
     private $isVerified;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"user:read", "user:write"})
      */
     private $isBan;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user:read", "user:write"})
      */
-    private $token;
+    private $tokenReset;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"user:read"})
      */
     private $createAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Group::class, mappedBy="owner")
+     * @Groups({"user:read", "user:write"})
      */
     private $groups;
 
     /**
      * @ORM\ManyToMany(targetEntity=Group::class, inversedBy="userList")
+     * @Groups({"user:read", "user:write"})
      */
     private $groupList;
 
@@ -209,14 +234,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getToken(): ?string
+    public function getTokenReset(): ?string
     {
-        return $this->token;
+        return $this->tokenReset;
     }
 
-    public function setToken(?string $token): self
+    public function setTokenReset(?string $tokenReset): self
     {
-        $this->token = $token;
+        $this->tokenReset = $tokenReset;
 
         return $this;
     }

@@ -1,0 +1,44 @@
+App\Entity\User:
+    properties:
+        firstname:
+            # - nickname:
+            #      message: The nickname is not valid or it already exist
+            - Type: string
+            - Length:
+                min: 2
+                max: 12
+            - Regex:
+                pattern: '/((?i)(<script>)|(<\/script>)(?-i))/'
+                match: false
+                message: 'Firstname cannot contain special characters'
+        lastname:
+            # - nickname:
+            #      message: The nickname is not valid or it already exist
+            - Type: string
+            - Length:
+                min: 2
+                max: 12
+            - Regex:
+                pattern: '/((?i)(<script>)|(<\/script>)(?-i))/'
+                match: false
+                message: 'Firstname cannot contain special characters'
+        email:
+            - Email:
+                message: The Email is not Valid
+            - Length:
+                minMessage: 'Email too short'
+                maxMessage: 'Email too long max 100' 
+                min: 8
+                max: 100
+            - Regex:
+                pattern: '/((?i)(<script>)|(<\/script>)(?-i))/'
+                match: false
+        password:
+            - Type: string
+            - Length:
+                minMessage: 'Password must contain at least 8 characters' 
+                min: 7
+            - Regex:
+                pattern: '/(?=.*[A-Z])(?=.*\d).{7,}/'
+                match: true
+                message: 'Password must contain 1 Uppercase 1 Special character 1 Number'

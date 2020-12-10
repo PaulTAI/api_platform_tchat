@@ -1,3 +1,7 @@
 api_platform:
     resource: .
     type: api_platform
+
+login:
+    path: /login
+    methods: ['POST']
