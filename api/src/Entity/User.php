@@ -16,7 +16,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *      normalizationContext={"groups"={"user:read"}},
  *      denormalizationContext={"groups"={"user:write"}},
+ *      itemOperations={
+ *         "get",
+ *         "put",
+ *         "delete"
+ *     }
  *      collectionOperations={
+ *          "GET",
  *          "create_user"= {
  *              "method"="POST",
  *              "path"="/users/create",
