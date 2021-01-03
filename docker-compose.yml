@@ -56,25 +56,19 @@ services:
         protocol: tcp
 
   db:
-    image: "postgres:12-alpine"
-    volumes:
-      - "db-data:/var/lib/postgresql/data:consistent"
-    ports:
-      - "5432:5432"
+    image: postgres:12-alpine
     environment:
-      - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_DB=apiPla
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-
-  adminer:
-    container_name: adminer_apiPlat
-    image: dockette/adminer:full-php5
+      - POSTGRES_DB=api
+      - POSTGRES_PASSWORD=!ChangeMe!
+      - POSTGRES_USER=api-platform
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./api/docker/db/data:/var/lib/postgresql/data:rw
     ports:
-      - 8098:80
-    restart: always
-    depends_on:
-      - db
+      - target: 5432
+        published: 5432
+        protocol: tcp
 
   mercure:
     image: dunglas/mercure

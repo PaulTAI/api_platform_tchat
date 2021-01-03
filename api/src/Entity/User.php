@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "get",
  *         "put",
  *         "delete"
- *     }
+ *     },
  *      collectionOperations={
  *          "GET",
  *          "create_user"= {
