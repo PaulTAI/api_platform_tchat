@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\BlacklistRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=BlacklistRepository::class)
+ * @ApiResource()
  */
 class Blacklist
 {
