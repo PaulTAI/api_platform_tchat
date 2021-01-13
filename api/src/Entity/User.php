@@ -17,9 +17,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      normalizationContext={"groups"={"user:read"}},
  *      denormalizationContext={"groups"={"user:write"}},
  *      itemOperations={
- *         "get",
- *         "put",
- *         "delete"
+ *         "get"={},
+ *         "put"={},
+ *         "delete"={}
  *     },
  *      collectionOperations={
  *          "GET",
@@ -73,20 +73,8 @@ class User implements UserInterface
     private $lastname;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"user:read", "user:write"})
-     */
-    private $isVerified;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"user:read", "user:write"})
-     */
-    private $isBan;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read"})
      */
     private $tokenReset;
 
@@ -98,20 +86,27 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Group::class, mappedBy="owner")
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read"})
      */
     private $groups;
 
     /**
      * @ORM\ManyToMany(targetEntity=Group::class, inversedBy="userList")
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read"})
      */
     private $groupList;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="sender", orphanRemoval=true)
+     * @Groups({"user:read"})
+     */
+    private $messages;
 
     public function __construct()
     {
         $this->groups = new ArrayCollection();
         $this->groupList = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,30 +211,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIsVerified(): ?bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    public function getIsBan(): ?bool
-    {
-        return $this->isBan;
-    }
-
-    public function setIsBan(bool $isBan): self
-    {
-        $this->isBan = $isBan;
-
-        return $this;
-    }
-
     public function getTokenReset(): ?string
     {
         return $this->tokenReset;
@@ -316,6 +287,37 @@ class User implements UserInterface
     {
         if ($this->groupList->contains($groupList)) {
             $this->groupList->removeElement($groupList);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
+            }
         }
 
         return $this;
