@@ -86,19 +86,23 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Group::class, mappedBy="owner")
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"user:read"})
      */
     private $groups;
 
     /**
      * @ORM\ManyToMany(targetEntity=Group::class, inversedBy="userList")
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"user:read"})
      */
     private $groupList;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="sender", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"user:read"})
+     * 
      */
     private $messages;
 
