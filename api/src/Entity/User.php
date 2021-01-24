@@ -99,7 +99,7 @@ class User implements UserInterface
     private $groupList;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="sender", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="sentBy", orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"user:read"})
      * 

@@ -79,7 +79,7 @@ services:
       - DEMO=1
       - JWT_KEY=!ChangeMe!
       - KEY_FILE=/certs/localhost.key
-      - PUBLISH_ALLOWED_ORIGINS=https://localhost:1337 # required for publishing from the demo page
+      - PUBLISH_ALLOWED_ORIGINS=https://localhost:1337/.well-known/mercure # required for publishing from the demo page
     depends_on:
       - dev-tls
     volumes:
