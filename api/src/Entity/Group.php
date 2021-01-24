@@ -44,7 +44,7 @@ class Group
     private $userList;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="group_sended")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="toGroup")
      */
     private $messages;
 

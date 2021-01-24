@@ -7,7 +7,7 @@ use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(mercure={"topics": "https://localhost:8443/api/v1/messages", "data": "message updated"})
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
 class Message
@@ -22,7 +22,7 @@ class Message
     /**
      * @ORM\Column(type="string", length=500)
      */
-    private $value;
+    private $text;
 
     /**
      * @ORM\Column(type="datetime")
@@ -33,26 +33,27 @@ class Message
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $sender;
+    private $sentBy;
 
     /**
      * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="messages")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $group_sended;
+    private $toGroup;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getValue(): ?string
+    public function getText(): ?string
     {
-        return $this->value;
+        return $this->text;
     }
 
-    public function setValue(string $value): self
+    public function setText(string $text): self
     {
-        $this->value = $value;
+        $this->text = $text;
 
         return $this;
     }
@@ -69,26 +70,26 @@ class Message
         return $this;
     }
 
-    public function getSender(): ?User
+    public function getSentBy(): ?User
     {
-        return $this->sender;
+        return $this->sentBy;
     }
 
-    public function setSender(?User $sender): self
+    public function setSentBy(?User $sentBy): self
     {
-        $this->sender = $sender;
+        $this->sentBy = $sentBy;
 
         return $this;
     }
 
-    public function getGroupSended(): ?Group
+    public function getToGroup(): ?Group
     {
-        return $this->group_sended;
+        return $this->toGroup;
     }
 
-    public function setGroupSended(?Group $group_sended): self
+    public function setToGroup(?Group $toGroup): self
     {
-        $this->group_sended = $group_sended;
+        $this->toGroup = $toGroup;
 
         return $this;
     }
