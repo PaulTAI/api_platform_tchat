@@ -48,10 +48,16 @@ class Group
      */
     private $messages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Role::class, mappedBy="role_group")
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->userList = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +154,37 @@ class Group
             // set the owning side to null (unless already changed)
             if ($message->getGroupSended() === $this) {
                 $message->setGroupSended(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->setRoleGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+            // set the owning side to null (unless already changed)
+            if ($role->getRoleGroup() === $this) {
+                $role->setRoleGroup(null);
             }
         }
 

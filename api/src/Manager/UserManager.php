@@ -46,12 +46,16 @@ class UserManager
     public function registerAccount(User $user)
     {
         if ($this->EmailIsUse($user->getEmail())) {
-            throw new BadRequestHttpException('Cette adresse email exist déjà');
+            return [
+                "message" => "Cette adresse email existe déja",
+                "user" => $user
+            ];
         }
 
         $user->setEmail($user->getEmail());
         $pass = $this->passwordService->encode($user, $user->getPassword());
         $user->setPassword($pass);
+        $user->setRoles(["ROLE_USER"]);
         $user->setTokenReset($this->tokenResetFormat());
         $user->setCreateAt(new \DateTime());
 

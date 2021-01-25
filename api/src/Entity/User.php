@@ -26,7 +26,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "create_user"= {
  *              "method"="POST",
  *              "path"="/users/create",
- *              "controller"=App\Controller\CreateUser::class
+ *              "controller"=App\Controller\CreateUser::class,
+ *              "validate"=false,
  *          }
  *      }
  * )
@@ -106,11 +107,18 @@ class User implements UserInterface
      */
     private $messages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $role;
+
     public function __construct()
     {
         $this->groups = new ArrayCollection();
         $this->groupList = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -322,6 +330,34 @@ class User implements UserInterface
             if ($message->getSender() === $this) {
                 $message->setSender(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRole(): Collection
+    {
+        return $this->role;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->role->contains($role)) {
+            $this->role[] = $role;
+            $role->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->role->contains($role)) {
+            $this->role->removeElement($role);
+            $role->removeUser($this);
         }
 
         return $this;
