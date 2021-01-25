@@ -61,6 +61,7 @@ services:
       - POSTGRES_DB=api
       - POSTGRES_PASSWORD=!ChangeMe!
       - POSTGRES_USER=api-platform
+      - PGDATA=/var/lib/postgresql/data/db-files/
     volumes:
       - db-data:/var/lib/postgresql/data:rw
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
@@ -86,7 +87,7 @@ services:
       - dev-certs:/certs:ro,nocopy
     ports:
       - target: 443
-        published: 1337
+        published: 1400
         protocol: tcp
 
   client:

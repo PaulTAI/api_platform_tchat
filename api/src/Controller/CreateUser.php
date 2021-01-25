@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Manager\UserManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CreateUser
 {
@@ -18,6 +19,8 @@ class CreateUser
     public function __invoke($data)
     {
         $user = $data;
-        $this->userManager->registerAccount($user);
+        $resp = $this->userManager->registerAccount($user);
+
+        return new JsonResponse($resp, 200);
     }
 }
