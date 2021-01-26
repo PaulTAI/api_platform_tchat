@@ -19,6 +19,8 @@ class AddRoleToUser
 
     public function __invoke($data)
     {
+        var_dump($data);
+        exit;
         $resp = $this->roleManager->addRoleToUser($data);
 
         return new JsonResponse($resp, 200);

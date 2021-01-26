@@ -24,8 +24,9 @@ use Doctrine\ORM\Mapping as ORM;
 *           },
 *           "update_role"= {
 *               "method"="PATCH",
-*               "path"="/roles/{id}",
+*               "path"="/roles/{id}/users",
 *               "controller"=App\Controller\Role\AddRoleToUser::class,
+*               "defaults"={"_api_resource_class"=Role::class, "_api_collection_operation_name"="update_role"}
 *           }       
 *   })
  * @ORM\Entity(repositoryClass=RoleRepository::class)
