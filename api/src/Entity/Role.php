@@ -7,6 +7,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -29,6 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
 *               "defaults"={"_api_resource_class"=Role::class, "_api_collection_operation_name"="update_role"}
 *           }       
 *   })
+* @ApiFilter(SearchFilter::class, properties={"users": "exact", "role_group": "exact"})
  * @ORM\Entity(repositoryClass=RoleRepository::class)
  * @ORM\Table(name="`role`")
  */
