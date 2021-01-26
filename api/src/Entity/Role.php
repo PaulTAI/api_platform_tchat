@@ -21,7 +21,13 @@ use Doctrine\ORM\Mapping as ORM;
 *               "method"="DELETE",
 *               "path"="/role",
 *               "controller"=App\Controller\Role\DeleteRole::class,
-*           }
+*           },
+*           "update_role"= {
+*               "method"="PATCH",
+*               "path"="/roles/{id}/users",
+*               "controller"=App\Controller\Role\AddRoleToUser::class,
+*               "defaults"={"_api_resource_class"=Role::class, "_api_collection_operation_name"="update_role"}
+*           }       
 *   })
  * @ORM\Entity(repositoryClass=RoleRepository::class)
  * @ORM\Table(name="`role`")
