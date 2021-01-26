@@ -25,7 +25,7 @@ class RoleManager
      * create a role
      *
      * @param Role $role
-     * @return void
+     * @return array
      */
     public function createRole(Role $role)
     {
@@ -56,12 +56,13 @@ class RoleManager
     /**
      * delete a role
      *
-     * @return void
+     * @param Role $role
+     * @return array
      */
     public function deleteRole(Role $role){
         $userRights = $this->groupService->getUserRightsInGroup($role->getRoleGroup());
 
-        // 3 => id du droit : supprimer un role dans le groupe
+        // 4 => id du droit : supprimer un role dans le groupe
         if(in_array("owner", $userRights) || in_array(4, $userRights)){
             
             $this->RoleRepository->deleteRole($role);
@@ -70,6 +71,30 @@ class RoleManager
                 "message" => "Le rôle a été supprimé avec succès",
                 "role" => $role
             ];
+        }
+
+        return [
+            "message" => "Vous n'avez pas les droits pour supprimer un rôle"
+        ];
+    }
+
+    /**
+     * add a role to a user
+     *
+     * @param Role $role
+     * @return array
+     */
+    public function addRoleToUser(Role $role){
+        var_dump($role);
+        exit;
+        //$role->addUser($role->getUsers()[0]);
+        $userRights = $this->groupService->getUserRightsInGroup($role->getRoleGroup());
+
+        // 6 => id du droit : affilier un role au user
+        if(in_array("owner", $userRights) || in_array(6, $userRights)){
+            //$role->addUser();
+
+            return ["user" => $role->getName()];
         }
 
         return [

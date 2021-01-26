@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(mercure={"topics": "https://localhost:8443/api/v1/messages", "data": "message updated"})
+ * @ApiFilter(SearchFilter::class, properties={"toGroup": "exact"})
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
 class Message
