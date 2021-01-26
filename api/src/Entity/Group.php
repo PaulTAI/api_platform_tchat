@@ -8,10 +8,26 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
+
+// TODO custom route
 /**
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="`group`")
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *           "GET",
+ *           "POST",
+ *           "add_user_group"= {
+ *               "method"="PATCH",
+ *               "path"="/addUserToGroup",
+ *               "controller"=App\Controller\Group\AddUserToGroup::class,
+ *           },
+ *           "delete_user_group"= {
+ *               "method"="PATCH",
+ *               "path"="/removeUserFromGroup",
+ *               "controller"=App\Controller\Group\DeleteUserFromGroup::class,
+ *           }
+ *   })
  */
 class Group
 {

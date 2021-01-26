@@ -19,6 +19,45 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
+    //apppel ajouter un utilisateur d'un groupe
+
+    /**
+     * add user in group
+     * 
+     * @param User $user
+     * @param Group $group
+     * @return void
+     */
+    public function insertUserInGroup(Collection $users, Group $group) {
+        $em = $this->getEntityManager();
+
+        for($i = 0; $i < \sizeof($users); $i++){
+            $group->addUserList($users[$i]);
+        }
+         
+        $em->persist($group);
+        $em->flush();
+    }
+
+    // TODO appel pour supprimer un utilisateur d'un groupe 
+
+    /**
+     * 
+     * @param User $user
+     * @param Group $group
+     * @return void
+     */
+    public function deleteUserFromGroup(Collection $users, Group $group) {
+        $em = $this-> getEntityManager();
+
+        for($i = 0; $i < \sizeof($users); $i++){
+            $group->removeUserList($users[$i]);
+        }
+        $em->persist($group);
+        $em->flush();
+    }
+
+
     // /**
     //  * @return Group[] Returns an array of Group objects
     //  */
